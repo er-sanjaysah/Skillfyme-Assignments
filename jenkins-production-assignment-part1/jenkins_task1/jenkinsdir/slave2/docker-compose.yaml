@@ -1,0 +1,19 @@
+services:
+  agent-slow:
+    image: jenkins/inbound-agent
+    container_name: agent-slow
+    restart: unless-stopped
+    cpus: "1.0"
+    mem_limit: 1g
+    environment:
+      - JENKINS_URL=http://jenkins-master:8080
+      - JENKINS_AGENT_NAME=slave2
+      - JENKINS_SECRET=193b709c2707796dcfe00423bd6e63b5e6d39a03474fcdc59afd9bb3aa5c182d
+
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
+    external: true
+

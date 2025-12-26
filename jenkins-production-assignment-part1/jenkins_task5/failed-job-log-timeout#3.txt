@@ -1,0 +1,61 @@
+Started by user devops
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on agent1 in /home/jenkins/workspace/Real-world-edge-cases
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 5 min 0 sec
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Long Running Task)
+[Pipeline] node
+Running on agent1 in /home/jenkins/workspace/Real-world-edge-cases@2
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Starting long-running job on agent...
+[Pipeline] sh
++ sleep 120
+agent1 seems to be removed or offline (hudson.remoting.ChannelClosedException: Channel "hudson.remoting.Channel@7807bacc:JNLP4-connect connection from agent-fast.jenkins-net/172.21.0.2:48932": Remote call on JNLP4-connect connection from agent-fast.jenkins-net/172.21.0.2:48932 failed. The channel is closing down or has closed down); will wait for 5 min 0 sec for it to come back online
+agent1 is back online
+agent1 seems to be removed or offline (hudson.remoting.ChannelClosedException: Channel "hudson.remoting.Channel@1f44d7c1:JNLP4-connect connection from agent-fast.jenkins-net/172.21.0.2:36996": Remote call on JNLP4-connect connection from agent-fast.jenkins-net/172.21.0.2:36996 failed. The channel is closing down or has closed down); will wait for 5 min 0 sec for it to come back online
+agent1 is back online
+Cancelling nested steps due to timeout
+Sending interrupt signal to process
+After 20s process did not stop
+[Pipeline] echo
+Agent disconnected or build interrupted!
+[Pipeline] echo
+Error: org.jenkinsci.plugins.workflow.steps.FlowInterruptedException: Timeout has been exceeded
+[Pipeline] error
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Post Processing)
+Stage "Post Processing" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline failed gracefully
+[Pipeline] echo
+Sending failure notification (simulated)
+[Pipeline] sh
++ echo EMAIL: Build failed due to agent disconnect or timeout
+EMAIL: Build failed due to agent disconnect or timeout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: Failing gracefully due to agent issue
+Finished: FAILURE

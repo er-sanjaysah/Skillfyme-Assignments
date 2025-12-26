@@ -1,0 +1,11 @@
+echo "Running unit tests..."
+sleep 5
+
+# Simulate success or failure
+if [ "$FAIL_TEST" = "true" ]; then
+  echo "Tests FAILED"
+  exit 1
+else
+  echo "Tests PASSED"
+fi
+

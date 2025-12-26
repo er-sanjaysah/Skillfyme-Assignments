@@ -1,0 +1,23 @@
+services:
+  jenkins-master:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-master
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx2048m
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
+    external: true
+
+volumes:
+  jenkins_home:
+

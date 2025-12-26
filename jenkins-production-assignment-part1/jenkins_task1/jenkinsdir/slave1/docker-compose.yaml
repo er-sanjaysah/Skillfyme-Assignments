@@ -1,0 +1,16 @@
+services:
+  agent-fast:
+    image: jenkins/inbound-agent
+    container_name: agent-fast
+    restart: unless-stopped
+    environment:
+      - JENKINS_URL=http://jenkins-master:8080
+      - JENKINS_AGENT_NAME=agent1
+      - JENKINS_SECRET=8a3d4abc8467e20967e8367f9220fb481cf31f3177fafaf10ddf91d38a3d3b27
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
+    external: true
+

@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    options {
+        // Global timeout of 5 minutes
+        timeout(time: 5, unit: 'MINUTES')
+    }
+
+    stages {
+        stage('Long Running Task') {
+            agent { label 'linux' }
+            steps {
+                script {
+                    try {
+                        echo "Starting long-running job on agent..."
+                        sh 'sleep 120'
+                        echo "Long-running job completed successfully"
+                    } catch (err) {
+                        echo "Agent disconnected or build interrupted!"
+                        echo "Error: ${err}"
+                        error("Failing gracefully due to agent issue")
+                    }
+                }
+            }
+        }
+
+        stage('Post Processing') {
+            steps {
+                echo "Pipeline continuing after successful execution"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully"
+        }
+
+        failure {
+            echo "Pipeline failed gracefully"
+            echo "Sending failure notification (simulated)"
+            sh 'echo "EMAIL: Build failed due to agent disconnect or timeout"'
+        }
+
+        aborted {
+            echo "Pipeline aborted due to timeout"
+            sh 'echo "EMAIL: Build aborted because it exceeded timeout"'
+        }
+    }
+}
+

@@ -1,0 +1,82 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(
+            name: 'GIT_BRANCH',
+            defaultValue: 'master',
+            description: 'Git branch name'
+        )
+        booleanParam(
+            name: 'FAIL_TEST',
+            defaultValue: false,
+            description: 'Simulate test failure'
+        )
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                script {
+                    try {
+                        echo "Checking out branch: ${params.GIT_BRANCH}"
+                        git branch: params.GIT_BRANCH,
+                            url: 'https://github.com/ersanjaysah/jenkins-assignment.git'
+                    } catch (err) {
+                        echo "Branch '${params.GIT_BRANCH}' does not exist"
+                        error("Checkout failed")
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'echo "Building..." | tee build.log'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                retry(2) {
+                    script {
+                        echo "Running tests..."
+                        sh 'echo "Running tests..." | tee test.log'
+
+                        if (params.FAIL_TEST) {
+                            echo "Test failure simulated"
+                            error("Test failed")
+                        }
+
+                        echo "Tests passed"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'echo "Deploying application..." | tee deploy.log'
+            }
+        }
+    }
+
+    post {
+
+        failure {
+            echo "Sending failure email notification (simulated)"
+            echo "Email sent to devops-team@gmail.com"
+        }
+
+        success {
+            echo "Archiving logs..."
+            archiveArtifacts artifacts: '*.log', fingerprint: true
+        }
+
+        always {
+            echo "Pipeline execution completed"
+        }
+    }
+}
+
